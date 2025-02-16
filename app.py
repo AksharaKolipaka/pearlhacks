@@ -10,7 +10,7 @@ from beginner_chat import beginner_bp
 from intermediate_chat import intermediate_bp
 from advanced_chat import advanced_bp
 
-load_dotenv()  # Add this at the top of app.py
+load_dotenv() 
 api_key = os.getenv('OPENAI_API_KEY')
 
 app = Flask(__name__)
@@ -21,7 +21,7 @@ db = SQLAlchemy(app)
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
-# Define detailed prompts for assisting a wealth manager with clients
+# Define detailed prompts for each level
 prompts = {
     "initial_consultation": "Welcome! I'm here to help you with your personal finances. Whether you're just starting to manage your money or looking to optimize your finances, I'm here to help. What would you like assistance with today?",
     
@@ -261,7 +261,7 @@ CORRECT_ANSWERS = {
 def determine_level(score):
     if score <= 5:
         return 'beginner'
-    elif score <= 8:
+    elif score > 5 or score <= 8:
         return 'intermediate'
     else:
         return 'advanced'
