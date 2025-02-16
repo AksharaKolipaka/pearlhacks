@@ -198,3 +198,13 @@ textarea {
     color: #333;
     align-self: flex-start;
 }
+
+.chat-history a {
+    text-decoration: none;
+    color: inherit; /* This ensures the link takes on the parent's text color */
+}
+
+.chat-history a:hover {
+    text-decoration: none; /* Maintains no underline on hover */
+}
+

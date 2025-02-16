@@ -17,12 +17,28 @@
             <div class="sidebar">
                 <h2>Learning Topics</h2>
                 <ul class="chat-history">
-                    <li onclick="setTopic('portfolio')">Portfolio Management</li>
-                    <li onclick="setTopic('derivatives')">Derivatives & Options</li>
-                    <li onclick="setTopic('estate')">Estate Planning</li>
-                    <li onclick="setTopic('business')">Business Finance</li>
-                    <li onclick="setTopic('international')">International Investing</li>
-                    <li onclick="setTopic('crypto')">Cryptocurrency & DeFi</li>
+                    <ul class="chat-history">
+                        <li onclick="setTopic('portfolio')">
+                            <a href="https://www.investopedia.com/terms/p/portfoliomanagement.asp" target="_blank" onclick="event.stopPropagation()">
+                                Portfolio Management
+                            </a>
+                        </li>
+                        <li onclick="setTopic('derivatives')">
+                            <a href="https://www.investopedia.com/terms/d/derivative.asp" target="_blank" onclick="event.stopPropagation()">
+                                Derivatives & Options
+                            </a>
+                        </li>
+                        <li onclick="setTopic('international')">
+                            <a href="https://www.investopedia.com/terms/i/international-investing.asp" target="_blank" onclick="event.stopPropagation()">
+                                International Investing
+                            </a>
+                        </li>
+                        <li onclick="setTopic('crypto')">
+                            <a href="https://www.investopedia.com/cryptocurrency-4427699" target="_blank" onclick="event.stopPropagation()">
+                                Cryptocurrency & DeFi
+                            </a>
+                        </li>
+                    </ul>                    
                 </ul>
                 <h2>Saved Chats</h2>
                 <ul id="chat-history" class="chat-history"></ul>
