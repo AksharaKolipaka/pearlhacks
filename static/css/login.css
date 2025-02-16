@@ -1,0 +1,103 @@
+/* General body styles */
+body {
+    background-color: #eaf4e1; /* Background color of the page */
+    font-family: 'Ubuntu', sans-serif; /* Font for the entire page */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: #2c3e50; /* Text color for the entire page */
+}
+
+/* Header styles */
+.header {
+    text-align: center; /* Center align the header text */
+    margin-bottom: 20px; /* Space below the header */
+}
+
+.header h1 {
+    color: #27ae60; /* Color of the main header text */
+    margin: 0; /* Remove default margin */
+    font-size: 36px; /* Font size of the main header */
+}
+
+.header h2 {
+    color: #2c3e50; /* Color of the sub-header text */
+    margin: 10; /* Remove default margin */
+    font-size: 18px; /* Font size of the sub-header */
+}
+
+/* Main container styles for login */
+.main {
+    background-color: #FFFFFF; /* Background color of the main container */
+    width: 400px; /* Fixed width for the main container */
+    height: auto; /* Automatic height based on content */
+    margin: 7em auto; /* Center the main container with vertical margin */
+    border-radius: 1.5em; /* Rounded corners for the main container */
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14); /* Box shadow for the main container */
+    padding: 20px; /* Padding inside the main container */
+    align-items: center; /* Center align items within the container */
+}
+
+/* Sign-in title styles */
+.sign {
+    color: #27ae60; /* Color of the sign-in title */
+    font-family: 'Ubuntu', sans-serif; /* Font for the sign-in title */
+    font-weight: bold; /* Bold font for the sign-in title */
+    font-size: 23px; /* Font size of the sign-in title */
+    align-items: center; /* Center align the sign-in title */
+}
+
+/* Input fields and submit button styles */
+.un, .pass, .submit {
+    width: 76%; /* Width for the input fields and submit button */
+    display: block; /* Block display for the input fields and submit button */
+    margin: 10px auto; /* Center align with margin */
+    padding: 10px; /* Padding inside the input fields and submit button */
+    border-radius: 20px; /* Rounded corners for the input fields and submit button */
+    border: none; /* Remove default border */
+    outline: none; /* Remove default outline */
+    font-family: 'Ubuntu', sans-serif; /* Font for the input fields and submit button */
+    font-size: 14px; /* Font size for the input fields and submit button */
+}
+
+.un, .pass {
+    background: rgba(39, 174, 96, 0.04); /* Background color for the input fields */
+    border: 2px solid rgba(39, 174, 96, 0.1); /* Border color for the input fields */
+}
+
+.un:focus, .pass:focus {
+    border: 2px solid rgba(39, 174, 96, 0.5) !important; /* Border color when input fields are focused */
+}
+
+.submit {
+    cursor: pointer; /* Pointer cursor on hover */
+    color: #fff; /* Text color of the submit button */
+    background: #27ae60; /* Background color of the submit button */
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1); /* Box shadow for the submit button */
+    transition: background 0.3s; /* Smooth transition for hover effect */
+}
+
+.submit:hover {
+    background: #2ecc71; /* Background color when hovering over the submit button */
+}
+
+/* Toggle button styles */
+.toggle-btn {
+    text-align: center; /* Center align the toggle button */
+    color: #27ae60; /* Text color of the toggle button */
+    cursor: pointer; /* Pointer cursor on hover */
+    margin-top: 15px; /* Space above the toggle button */
+}
+
+a {
+    color: #27ae60; /* Link color */
+    text-decoration: none; /* Remove underline from the link */
+}
+
+a:hover {
+    text-decoration: underline; /* Underline the link on hover */
+}
