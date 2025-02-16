@@ -1,201 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-    <title>Beginner Financial Chat</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <title>Beginner Financial Chat</title>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Welcome to Your Beginner Financial Journey, {{ username }}!</h1>
-            <button class="logout-btn" onclick="location.href='/logout'">Logout</button>
-        </div>
-        <div class="main-content">
-            <div class="sidebar">
-                <h2>Learning Topics</h2>
-                <ul class="chat-history">
-                    <li><a href="https://consumer.gov/your-money/making-budget" target="_blank">Basic Budgeting</a></li>
-                    <li><a href="https://bettermoneyhabits.bankofamerica.com/en/saving-budgeting/ways-to-save-money" target="_blank">Starting to Save</a></li>
-                    <li><a href="https://www.investopedia.com/terms/d/debt.asp" target="_blank">Understanding Debt</a></li>    
-                </ul>
-                <h2>Saved Chats</h2>
-                <ul id="chat-history" class="chat-history"></ul>
-                <button id="clearChatsBtn" class="clear-chats-btn">Clear All Chats</button>
-            </div>
-            <div class="main">
-                <div class="form-group">
-                    <label for="scenario">Choose a scenario:</label>
-                    <select id="scenario" class="form-control">
-                        <option value="initial_consultation">Initial Consultation</option>
-                        <option value="financial_goal_setting">Financial Goal Setting</option>
-                        <option value="tax_optimization">Tax Optimization</option>
-                        <option value="retirement_planning">Retirement Planning</option>
-                        <option value="estate_planning">Estate Planning</option>
-                        <option value="investment_recommendations">Investment Recommendations</option>
-                        <option value="budgeting">Budgeting</option>
-                        <option value="debt_management">Debt Management</option>
-                        <option value="other">Other</option>
-                    </select>
-                    
-                </div>
-                <div class="chatbox">
-                    <div id="chat-content" class="chat-content"></div>
-                    <div class="chat-input">
-                        <textarea id="message" class="form-control" placeholder="Type your message here..."></textarea>
-                        <button id="sendBtn" class="btn btn-primary">Send</button>
-                        <button id="endScenarioBtn" class="btn btn-secondary">Save Scenario</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="container">
+    <div class="header">
+      <h1>Welcome to Your Beginner Financial Journey, {{ username }}!</h1>
+      <button class="logout-btn" onclick="location.href='/logout'">Logout</button>
     </div>
+    <div class="main-content">
+      <div class="sidebar">
+        <h2>Learning Topics</h2>
+        <ul class="chat-history">
+          <li><a href="https://consumer.gov/your-money/making-budget" target="_blank">Basic Budgeting</a></li>
+          <li><a href="https://bettermoneyhabits.bankofamerica.com/en/saving-budgeting/ways-to-save-money" target="_blank">Starting to Save</a></li>
+          <li><a href="https://www.investopedia.com/terms/d/debt.asp" target="_blank">Understanding Debt</a></li>
+        </ul>
+        <h2>Saved Chats</h2>
+        <ul id="chat-history" class="chat-history"></ul>
+        <button id="clearChatsBtn" class="clear-chats-btn">Clear All Chats</button>
+      </div>
+      <div class="main">
+        <div class="form-group">
+          <label for="scenario">Choose a scenario:</label>
+          <select id="scenario" class="form-control">
+            <option value="initial_consultation">Initial Consultation</option>
+            <option value="financial_goal_setting">Financial Goal Setting</option>
+            <option value="tax_optimization">Tax Optimization</option>
+            <option value="retirement_planning">Retirement Planning</option>
+            <option value="estate_planning">Estate Planning</option>
+            <option value="investment_recommendations">Investment Recommendations</option>
+            <option value="budgeting">Budgeting</option>
+            <option value="debt_management">Debt Management</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="chatbox">
+          <div id="chat-content" class="chat-content"></div>
+          <div class="chat-input">
+            <textarea id="message" class="form-control" placeholder="Type your message here..."></textarea>
+            <button id="sendBtn" class="btn btn-primary">Send</button>
+            <button id="endScenarioBtn" class="btn btn-secondary">Save Scenario</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            fetchInitialConsultationPrompt();
-        });
-    
-        function fetchInitialConsultationPrompt() {
-            fetch('/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ scenario: 'initial_consultation', message: '' })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('chat-content').innerHTML = `<p>${data.response}</p>`;
-            })
-            .catch(error => console.error('Error:', error));
-        }
-        
-        document.addEventListener('DOMContentLoaded', (event) => {
-            loadChatHistory();
-        });
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      fetchInitialConsultationPrompt();
+    });
 
-        let currentConversation = [];
+    function fetchInitialConsultationPrompt() {
+      fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ topic: 'initial_consultation', message: '' })
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('chat-content').innerHTML = `<p>${data.response}</p>`;
+      })
+      .catch(error => console.error('Error:', error));
+    }
 
-        document.getElementById('sendBtn').addEventListener('click', function () {
-            const scenario = document.getElementById('scenario').value;
-            const message = document.getElementById('message').value;
-            if (message.trim() === '') return;
+    document.addEventListener('DOMContentLoaded', (event) => {
+      loadChatHistory();
+    });
 
-            // Append user's message to the chat
-            const userMessage = document.createElement('div');
-            userMessage.classList.add('message', 'user-message');
-            userMessage.innerHTML = `<p>${message}</p>`;
-            document.getElementById('chat-content').appendChild(userMessage);
+    let currentConversation = [];
 
-            // Add to current conversation
-            currentConversation.push({ sender: 'user', message: message });
+    document.getElementById('sendBtn').addEventListener('click', function () {
+      const scenario = document.getElementById('scenario').value;
+      const message = document.getElementById('message').value;
+      if (message.trim() === '') return;
 
-            // Clear input
-            document.getElementById('message').value = '';
+      // Append user's message to the chat
+      const userMessage = document.createElement('div');
+      userMessage.classList.add('message', 'user-message');
+      userMessage.innerHTML = `<p>${message}</p>`;
+      document.getElementById('chat-content').appendChild(userMessage);
 
-            fetch('/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ scenario: scenario, message: message })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    const botMessage = document.createElement('div');
-                    botMessage.classList.add('message', 'bot-message');
-                    botMessage.innerHTML = `<p>${data.response}</p>`;
-                    document.getElementById('chat-content').appendChild(botMessage);
+      // Add to current conversation
+      currentConversation.push({ sender: 'user', message: message });
 
-                    // Add to current conversation
-                    currentConversation.push({ sender: 'bot', message: data.response });
+      // Clear input
+      document.getElementById('message').value = '';
 
-                    // Scroll to the latest message
-                    document.getElementById('chat-content').scrollTop = document.getElementById('chat-content').scrollHeight;
-                })
-                .catch(error => console.error('Error:', error));
-        });
+      // Note the change from "scenario" to "topic" below:
+      fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ topic: scenario, message: message })
+      })
+      .then(response => response.json())
+      .then(data => {
+        const botMessage = document.createElement('div');
+        botMessage.classList.add('message', 'bot-message');
+        botMessage.innerHTML = `<p>${data.response}</p>`;
+        document.getElementById('chat-content').appendChild(botMessage);
 
-        document.getElementById('scenario').addEventListener('change', function () {
-            document.getElementById('chat-content').innerHTML = '';
-            document.getElementById('message').value = '';
-            currentConversation = [];
+        // Add to current conversation
+        currentConversation.push({ sender: 'bot', message: data.response });
 
-            // Automatically display the prompt for the selected scenario
-            const scenario = this.value;
-            fetch('/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ scenario: scenario, message: '' })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    const botMessage = document.createElement('div');
-                    botMessage.classList.add('message', 'bot-message');
-                    botMessage.innerHTML = `<p>${data.response}</p>`;
-                    document.getElementById('chat-content').appendChild(botMessage);
+        // Scroll to the latest message
+        document.getElementById('chat-content').scrollTop = document.getElementById('chat-content').scrollHeight;
+      })
+      .catch(error => console.error('Error:', error));
+    });
 
-                    // Add to current conversation
-                    currentConversation.push({ sender: 'bot', message: data.response });
+    document.getElementById('scenario').addEventListener('change', function () {
+      document.getElementById('chat-content').innerHTML = '';
+      document.getElementById('message').value = '';
+      currentConversation = [];
 
-                    // Scroll to the latest message
-                    document.getElementById('chat-content').scrollTop = document.getElementById('chat-content').scrollHeight;
-                })
-                .catch(error => console.error('Error:', error));
-        });
+      // Automatically display the prompt for the selected scenario,
+      // using "topic" in the JSON payload:
+      const scenario = this.value;
+      fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ topic: scenario, message: '' })
+      })
+      .then(response => response.json())
+      .then(data => {
+        const botMessage = document.createElement('div');
+        botMessage.classList.add('message', 'bot-message');
+        botMessage.innerHTML = `<p>${data.response}</p>`;
+        document.getElementById('chat-content').appendChild(botMessage);
 
-        document.getElementById('endScenarioBtn').addEventListener('click', function () {
-            if (currentConversation.length > 0) {
-                const scenario = document.getElementById('scenario').value;
-                saveChatHistory(scenario, currentConversation);
-                currentConversation = [];
-                document.getElementById('chat-content').innerHTML = '';
-                document.getElementById('message').value = '';
-            }
-        });
+        // Add to current conversation
+        currentConversation.push({ sender: 'bot', message: data.response });
 
-        document.getElementById('clearChatsBtn').addEventListener('click', function () {
-            localStorage.removeItem('chatHistory');
-            document.getElementById('chat-history').innerHTML = '';
-        });
+        // Scroll to the latest message
+        document.getElementById('chat-content').scrollTop = document.getElementById('chat-content').scrollHeight;
+      })
+      .catch(error => console.error('Error:', error));
+    });
 
-        function saveChatHistory(scenario, conversation) {
-            let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-            chatHistory.push({ scenario, conversation });
-            localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
-            loadChatHistory();
-        }
+    document.getElementById('endScenarioBtn').addEventListener('click', function () {
+      if (currentConversation.length > 0) {
+        const scenario = document.getElementById('scenario').value;
+        saveChatHistory(scenario, currentConversation);
+        currentConversation = [];
+        document.getElementById('chat-content').innerHTML = '';
+        document.getElementById('message').value = '';
+      }
+    });
 
-        function loadChatHistory() {
-            const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-            const chatHistoryElement = document.getElementById('chat-history');
-            chatHistoryElement.innerHTML = '';
-            chatHistory.forEach((chat, index) => {
-                const chatItem = document.createElement('li');
-                chatItem.innerHTML = `<strong>Scenario:</strong> ${chat.scenario}`;
-                chatItem.addEventListener('click', () => displayFullChat(index));
-                chatHistoryElement.appendChild(chatItem);
-            });
-        }
+    document.getElementById('clearChatsBtn').addEventListener('click', function () {
+      localStorage.removeItem('chatHistory');
+      document.getElementById('chat-history').innerHTML = '';
+    });
 
-        function displayFullChat(index) {
-            const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-            const chat = chatHistory[index];
-            const chatContent = document.getElementById('chat-content');
-            chatContent.innerHTML = '';
-            chat.conversation.forEach(message => {
-                const messageElement = document.createElement('div');
-                messageElement.classList.add('message', message.sender === 'user' ? 'user-message' : 'bot-message');
-                messageElement.innerHTML = `<p>${message.message}</p>`;
-                chatContent.appendChild(messageElement);
-            });
-        }
-    </script>
+    function saveChatHistory(scenario, conversation) {
+      let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+      chatHistory.push({ scenario, conversation });
+      localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+      loadChatHistory();
+    }
+
+    function loadChatHistory() {
+      const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+      const chatHistoryElement = document.getElementById('chat-history');
+      chatHistoryElement.innerHTML = '';
+      chatHistory.forEach((chat, index) => {
+        const chatItem = document.createElement('li');
+        chatItem.innerHTML = `<strong>Scenario:</strong> ${chat.scenario}`;
+        chatItem.addEventListener('click', () => displayFullChat(index));
+        chatHistoryElement.appendChild(chatItem);
+      });
+    }
+
+    function displayFullChat(index) {
+      const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+      const chat = chatHistory[index];
+      const chatContent = document.getElementById('chat-content');
+      chatContent.innerHTML = '';
+      chat.conversation.forEach(message => {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', message.sender === 'user' ? 'user-message' : 'bot-message');
+        messageElement.innerHTML = `<p>${message.message}</p>`;
+        chatContent.appendChild(messageElement);
+      });
+    }
+  </script>
 </body>
 </html>
-

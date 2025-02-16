@@ -70,58 +70,60 @@
 </div>
 </div>
 
+
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-fetchInitialConsultationPrompt();
-});
+    document.addEventListener('DOMContentLoaded', function () {
+      fetchInitialConsultationPrompt();
+    });
 
-function fetchInitialConsultationPrompt() {
-fetch('/chat', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ scenario: 'initial_consultation', message: '' })
-})
-.then(response => response.json())
-.then(data => {
-    document.getElementById('chat-content').innerHTML = `<p>${data.response}</p>`;
-})
-.catch(error => console.error('Error:', error));
-}
+    function fetchInitialConsultationPrompt() {
+      fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ topic: 'initial_consultation', message: '' })
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('chat-content').innerHTML = `<p>${data.response}</p>`;
+      })
+      .catch(error => console.error('Error:', error));
+    }
 
-document.addEventListener('DOMContentLoaded', (event) => {
-loadChatHistory();
-});
+    document.addEventListener('DOMContentLoaded', (event) => {
+      loadChatHistory();
+    });
 
-let currentConversation = [];
+    let currentConversation = [];
 
-document.getElementById('sendBtn').addEventListener('click', function () {
-const scenario = document.getElementById('scenario').value;
-const message = document.getElementById('message').value;
-if (message.trim() === '') return;
+    document.getElementById('sendBtn').addEventListener('click', function () {
+      const scenario = document.getElementById('scenario').value;
+      const message = document.getElementById('message').value;
+      if (message.trim() === '') return;
 
-// Append user's message to the chat
-const userMessage = document.createElement('div');
-userMessage.classList.add('message', 'user-message');
-userMessage.innerHTML = `<p>${message}</p>`;
-document.getElementById('chat-content').appendChild(userMessage);
+      // Append user's message to the chat
+      const userMessage = document.createElement('div');
+      userMessage.classList.add('message', 'user-message');
+      userMessage.innerHTML = `<p>${message}</p>`;
+      document.getElementById('chat-content').appendChild(userMessage);
 
-// Add to current conversation
-currentConversation.push({ sender: 'user', message: message });
+      // Add to current conversation
+      currentConversation.push({ sender: 'user', message: message });
 
-// Clear input
-document.getElementById('message').value = '';
+      // Clear input
+      document.getElementById('message').value = '';
 
-fetch('/chat', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ scenario: scenario, message: message })
-})
-    .then(response => response.json())
-    .then(data => {
+      // Note the change from "scenario" to "topic" below:
+      fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ topic: scenario, message: message })
+      })
+      .then(response => response.json())
+      .then(data => {
         const botMessage = document.createElement('div');
         botMessage.classList.add('message', 'bot-message');
         botMessage.innerHTML = `<p>${data.response}</p>`;
@@ -132,26 +134,27 @@ fetch('/chat', {
 
         // Scroll to the latest message
         document.getElementById('chat-content').scrollTop = document.getElementById('chat-content').scrollHeight;
-    })
-    .catch(error => console.error('Error:', error));
-});
+      })
+      .catch(error => console.error('Error:', error));
+    });
 
-document.getElementById('scenario').addEventListener('change', function () {
-document.getElementById('chat-content').innerHTML = '';
-document.getElementById('message').value = '';
-currentConversation = [];
+    document.getElementById('scenario').addEventListener('change', function () {
+      document.getElementById('chat-content').innerHTML = '';
+      document.getElementById('message').value = '';
+      currentConversation = [];
 
-// Automatically display the prompt for the selected scenario
-const scenario = this.value;
-fetch('/chat', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ scenario: scenario, message: '' })
-})
-    .then(response => response.json())
-    .then(data => {
+      // Automatically display the prompt for the selected scenario,
+      // using "topic" in the JSON payload:
+      const scenario = this.value;
+      fetch('/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ topic: scenario, message: '' })
+      })
+      .then(response => response.json())
+      .then(data => {
         const botMessage = document.createElement('div');
         botMessage.classList.add('message', 'bot-message');
         botMessage.innerHTML = `<p>${data.response}</p>`;
@@ -162,58 +165,56 @@ fetch('/chat', {
 
         // Scroll to the latest message
         document.getElementById('chat-content').scrollTop = document.getElementById('chat-content').scrollHeight;
-    })
-    .catch(error => console.error('Error:', error));
-});
+      })
+      .catch(error => console.error('Error:', error));
+    });
 
-document.getElementById('endScenarioBtn').addEventListener('click', function () {
-if (currentConversation.length > 0) {
-    const scenario = document.getElementById('scenario').value;
-    saveChatHistory(scenario, currentConversation);
-    currentConversation = [];
-    document.getElementById('chat-content').innerHTML = '';
-    document.getElementById('message').value = '';
-}
-});
+    document.getElementById('endScenarioBtn').addEventListener('click', function () {
+      if (currentConversation.length > 0) {
+        const scenario = document.getElementById('scenario').value;
+        saveChatHistory(scenario, currentConversation);
+        currentConversation = [];
+        document.getElementById('chat-content').innerHTML = '';
+        document.getElementById('message').value = '';
+      }
+    });
 
-document.getElementById('clearChatsBtn').addEventListener('click', function () {
-localStorage.removeItem('chatHistory');
-document.getElementById('chat-history').innerHTML = '';
-});
+    document.getElementById('clearChatsBtn').addEventListener('click', function () {
+      localStorage.removeItem('chatHistory');
+      document.getElementById('chat-history').innerHTML = '';
+    });
 
-function saveChatHistory(scenario, conversation) {
-let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-chatHistory.push({ scenario, conversation });
-localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
-loadChatHistory();
-}
+    function saveChatHistory(scenario, conversation) {
+      let chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+      chatHistory.push({ scenario, conversation });
+      localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+      loadChatHistory();
+    }
 
-function loadChatHistory() {
-const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-const chatHistoryElement = document.getElementById('chat-history');
-chatHistoryElement.innerHTML = '';
-chatHistory.forEach((chat, index) => {
-    const chatItem = document.createElement('li');
-    chatItem.innerHTML = `<strong>Scenario:</strong> ${chat.scenario}`;
-    chatItem.addEventListener('click', () => displayFullChat(index));
-    chatHistoryElement.appendChild(chatItem);
-});
-}
+    function loadChatHistory() {
+      const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+      const chatHistoryElement = document.getElementById('chat-history');
+      chatHistoryElement.innerHTML = '';
+      chatHistory.forEach((chat, index) => {
+        const chatItem = document.createElement('li');
+        chatItem.innerHTML = `<strong>Scenario:</strong> ${chat.scenario}`;
+        chatItem.addEventListener('click', () => displayFullChat(index));
+        chatHistoryElement.appendChild(chatItem);
+      });
+    }
 
-function displayFullChat(index) {
-const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-const chat = chatHistory[index];
-const chatContent = document.getElementById('chat-content');
-chatContent.innerHTML = '';
-chat.conversation.forEach(message => {
-    const messageElement = document.createElement('div');
-    messageElement.classList.add('message', message.sender === 'user' ? 'user-message' : 'bot-message');
-    messageElement.innerHTML = `<p>${message.message}</p>`;
-    chatContent.appendChild(messageElement);
-});
-}
-</script>
+    function displayFullChat(index) {
+      const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+      const chat = chatHistory[index];
+      const chatContent = document.getElementById('chat-content');
+      chatContent.innerHTML = '';
+      chat.conversation.forEach(message => {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', message.sender === 'user' ? 'user-message' : 'bot-message');
+        messageElement.innerHTML = `<p>${message.message}</p>`;
+        chatContent.appendChild(messageElement);
+      });
+    }
+  </script>
 </body>
 </html>
-
-
